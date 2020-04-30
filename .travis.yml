@@ -11,13 +11,18 @@ notifications:
       - freny.ng@outlook.com
     on_success: always
     on_failure: always
+
 branches:
   only:
    - development
+
 before_script:
   - npm install -g @angular/cli
   - npm install -g now
+  - npm audit fix
+
 script:
+  - ng lint
   - ng build --prod --base-href https://freny-n.github.io/bitcoin-order-app/
   
 deploy:
@@ -28,3 +33,6 @@ deploy:
   edge: true
   on:
     branch: development
+
+after_success:
+ - git push origin :development
